@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+<!-- page laid out using jinja templates -->
+{% block content %}
+  {% for p in posts %}
+    {{ p.render(user) | safe }}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,196 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin: 0 auto;
+    color: #333;
+    background-color: #f7f5f5;
+}
+
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+h4 {
+    text-align: right;
+}
+
+
+hr {
+    border-width: 3px;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+.login-area {
+    font-size: 20px;
+    color: #fffAe5;
+    text-align: center;
+    top: 10px;
+    right: 10px;
+}
+
+
+.login-link {
+    color: #fffAe5;
+    text-decoration: none;
+}
+
+
+.login-link:visited {
+    color: #fffAe5;
+}
+
+
+.login-link:hover {
+    text-decoration: underline;
+    color: #4D8DC8;
+    font-weight: bolder;
+}
+
+
+.error {
+    color: #4D8DC8;
+}
+    
+
+.label {
+    text-align: right;
+    color: black;
+}
+
+
+label {
+  display: block;
+  font-size: 20px;
+}
+
+
+label + label {
+    margin-top: 20px;
+}
+
+
+textarea {
+  width: 500px;
+  height: 400px;
+  font-size: 17px;
+  font-family: monospace;
+}
+
+
+input[type=submit, cancel] {
+  font-size: 24px;
+}
+
+
+.header-area {
+    background: url("/static/bricks_sp.jpg");
+    width: 100%;
+}
+
+
+.main-title {
+    display: block;
+    height: 150px;
+    line-height: 150px;
+    color: #fffAe5;
+    font-size: 80px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+.main-title:hover {
+    text-decoration: none;
+    color: #fffAe5;
+}
+
+
+.post {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    margin-top: 40px;
+}
+
+
+.post-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+.post-subject {
+    width: 500px;
+    font-size: 20px;
+    padding: 2px;
+    font-family: monospace;
+}
+
+
+.post-date {
+    text-align: right;
+    bottom: 0;
+    color: #999;
+
+}
+
+
+.post-username {
+    font-size: 18px;
+    color: #999;
+}
+
+
+.post-content {
+    margin: 10px 5px;
+}
+
+
+.anchor-no-underline:hover {
+    text-decoration: none;
+}
+
+
+.post-likes {
+    text-align: right;    
+}
+
+
+.post-buttons-area {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+.like-button {
+    margin-right: 15px;
+}
+
+
+.form-comment {
+    margin-top: 10px;
+}
+
+
+.cmt-area {
+    padding: 20px 30px;
+}
+
+
+.cmt-section {
+    background-color: #f7f5f5;
+    padding: 5px 10px;
+}
+
+
+.cmt-section-din {
+    background-color: #f7f5f5;
+}

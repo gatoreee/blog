@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+<!-- post page laid out using jinja templates -->
+{% block content %}
+  {{ post.render(user) | safe }}
+{% endblock %}

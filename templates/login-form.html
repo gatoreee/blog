@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- verify credentials -->
+    <h3>Login</h3>
+    <form method="post">
+      <table>
+        <tr>
+          <td class="label">
+            Username
+          </td>
+          <td>
+            <input type="text" name="username" value="{{ username }}">
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">
+            Password
+          </td>
+          <td>
+            <input type="password" name="password" value="">
+          </td>
+        </tr>
+      </table>
+
+      <div class="error">
+        {{error}}
+        {% if error == 'User not found, please ' %}
+             <a href="/signup">signup</a>
+        {% endif%}
+      </div>
+
+      <input type="submit">
+    </form>
+  
+{% endblock %}

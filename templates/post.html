@@ -1,0 +1,87 @@
+<!-- contains one complete post, including title, content, likes and commments section -->
+<div class="post row">
+  <div class="col-md-12">
+    <div class="post-heading row">
+      <div class="post-username col-md-6">
+        {{ p.poster.get().name }}
+      </div>
+      <div class="post-date col-md-6">
+        {{ p.created.strftime("%b %d, %Y") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="post-title col-md-12">
+        {{ p.subject }}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12 post-content">
+        {{ p._render_text | safe }}
+      </div>
+    </div>
+    <div class="row post-buttons-area">
+      <div class="col-md-6">
+        <!-- only allow post author to edit or delete -->
+        {% if p.poster == user.key %}
+          <a class="anchor-no-underline" href="/blog/editpost/{{ p.key.integer_id() }}">
+            <button type="button" class="btn btn-primary">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </button>
+          </a>
+          <button type="button" class="btn btn-primary delete-button" data-post-id="{{ p.key.integer_id() }}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </button>       
+        {% elif user %}
+          {% if user.name not in p.likes_authors %}
+          <button type="button" class="btn btn-primary like-button" data-toggle="button" data-post-id="{{ p.key.integer_id() }}">
+          {% endif %}
+          {% if user.name in p.likes_authors %}
+          <button type="button" class="btn btn-primary like-button active" data-toggle="button" data-post-id="{{ p.key.integer_id() }}">
+          {% endif %}
+            <!-- only allow like button for other users. also, like button keeps state so each user can only like once -->
+            {% if user.name not in p.likes_authors %}
+            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+            {% endif %}
+            {% if user.name in p.likes_authors %}
+            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+            {% endif %}               
+          </button>
+        {% endif %}
+      </div>
+      <div class="col-md-6 post-likes">
+        {{ p.likes_counter }} likes
+      </div>
+    </div>
+    <!-- comments section -->
+    <div class="row">
+      <div id="{{ p.key.integer_id() }}-cmt-area" class="col-md-12 cmt-area">
+        {% if p.comments %}
+        <div class="cmt-section">
+        {% else %}
+        <div hidden class="cmt-section">
+        {% endif %}      
+          <p><b>Comments:</b></p>
+          {% for c in p.comments %}
+          <p>{{ c.author.get().name }}: <i>{{ c.comment }}</i></p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- only allow logged in users to post comments -->
+    {% if user %}
+    <div class="row">
+      <div class="col-md-12">
+        <form class="comment-form navbar-form" data-post-id="{{ p.key.integer_id() }}" data-username="{{ user.name }}" method="post">
+          <div  class="input-group form-comment">
+            <input type="text" class="form-control cmt-text" name="comment" placeholder="Add comment">
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-cmt-sub" type="submit">Post</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
