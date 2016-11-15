@@ -15,4 +15,4 @@ Alternatively, the project is hosted at http://bees-blog.appspot.com/blog
 
 Extra Credit Description
 
-I used jQuery to make some of the blog features dynamic. When a user likes a post, it dynamically updates the counter without needing a reload; when a user adds a comment, it dynamically adds the comment to the post without having to reload; when a user deletes a post, it dynamically removes the post without having to reload.
+I used jQuery to make some of the blog features dynamic. When a user likes a post, it dynamically updates the counter without needing a reload; when a user adds a comment, it dynamically adds the comment to the post without having to reload; when a user deletes a post, it dynamically removes the post without having to reload. I also added dynamic features using templates that prevent a user from linking a post more than once, allows users to unlike a post, and keeps the 'like button' state across reloads and sessions.
