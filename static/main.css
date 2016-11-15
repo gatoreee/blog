@@ -1,3 +1,4 @@
+/* types area */
 body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -27,6 +28,32 @@ hr {
 }
 
 
+/* input forms */
+label {
+  display: block;
+  font-size: 20px;
+}
+
+
+label + label {
+    margin-top: 20px;
+}
+
+
+textarea {
+  width: 500px;
+  height: 400px;
+  font-size: 17px;
+  font-family: monospace;
+}
+
+
+input[type=submit, cancel] {
+  font-size: 24px;
+}
+
+
+/* header area */
 .login-area {
     font-size: 20px;
     color: #fffAe5;
@@ -65,30 +92,6 @@ hr {
 }
 
 
-label {
-  display: block;
-  font-size: 20px;
-}
-
-
-label + label {
-    margin-top: 20px;
-}
-
-
-textarea {
-  width: 500px;
-  height: 400px;
-  font-size: 17px;
-  font-family: monospace;
-}
-
-
-input[type=submit, cancel] {
-  font-size: 24px;
-}
-
-
 .header-area {
     background: url("/static/bricks_sp.jpg");
     width: 100%;
@@ -113,6 +116,7 @@ input[type=submit, cancel] {
 }
 
 
+/* post display area */
 .post {
     max-width: 800px;
     margin: 0 auto;
