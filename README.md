@@ -6,7 +6,12 @@ The project uses Twitter's Bootstrap and jQuery. The stylesheets and js are link
 
 How to Run Project
 
-The project repository can be found at https://github.com/gatoreee/blog. Save all files to a local folder. In order to run the application, open a command prompt and follow the instructions below: 1) From the command prompt, use cd command to take you to the folder where the files are saved. 2) From the command prompt, run the 'dev_appserver.py app.yaml' to launch the application locally. 3) Open Chrome and enter 'localhost/8080' in the address bar to use the application.
+The project repository can be found at https://github.com/gatoreee/blog. Save all files to a local folder. In order to run the application, open a command prompt and follow the instructions below: 
+1) From the command prompt, use cd command to take you to the folder where the files are saved
+2) From the command prompt, run the 'dev_appserver.py app.yaml' to launch the application locally 
+3) Open Chrome and enter 'localhost/8080' in the address bar to use the application
+
+Alternatively, the project is hosted at http://bees-blog.appspot.com/blog
 
 Extra Credit Description
 
