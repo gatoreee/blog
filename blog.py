@@ -1,29 +1,15 @@
 """Main python module defining model, classes and functions."""
-import os
 import re
-import random
-import hashlib
 import hmac
 import json
-from string import letters
+from model import User, Comment, Post, render_str
 
 import webapp2
-import jinja2
 
 from google.appengine.ext import ndb
 
-"""jinja required setup"""
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
-                               autoescape=True)
 
 secret = 'tart'
-
-
-def render_str(template, **params):
-    """Utility function required for jinja."""
-    t = jinja_env.get_template(template)
-    return t.render(params)
 
 
 def make_secure_val(val):
@@ -81,77 +67,9 @@ class BlogHandler(webapp2.RequestHandler):
         self.user = uid and User.by_id(int(uid))
 
 
-def make_salt(length=5):
-    """Utility function to make salt value."""
-    return ''.join(random.choice(letters) for x in xrange(length))
-
-
-def make_pw_hash(name, pw, salt=None):
-    """Utility function to make hash value."""
-    if not salt:
-        salt = make_salt()
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (salt, h)
-
-
-def valid_pw(name, password, h):
-    """Utility function to verify user password."""
-    salt = h.split(',')[0]
-    return h == make_pw_hash(name, password, salt)
-
-
-def users_key(group='default'):
-    """Utility function that returns users parent key."""
-    return ndb.Key('users', group)
-
-
 def blog_key(name='default'):
     """Utility function returns posts parent key."""
     return ndb.Key('blogs', name)
-
-
-class User(ndb.Model):
-    """Class defines user model for DB and utility methods."""
-
-    name = ndb.StringProperty(required=True)
-    pw_hash = ndb.StringProperty(required=True)
-    email = ndb.StringProperty()
-
-    @classmethod
-    def by_id(cls, uid):
-        """Utility method finds existing user by id."""
-        return User.get_by_id(uid, parent=users_key())
-
-    @classmethod
-    def by_name(cls, name):
-        """Utility method finds existing user by name."""
-        u = User.query(User.name == name).get()
-        return u
-
-    @classmethod
-    def register(cls, name, pw, email=None):
-        """Utility method registers new user."""
-        pw_hash = make_pw_hash(name, pw)
-        return User(parent=users_key(),
-                    name=name,
-                    pw_hash=pw_hash,
-                    email=email)
-
-    @classmethod
-    def login(cls, name, pw):
-        """Utility method returns user logged in."""
-        u = cls.by_name(name)
-        if u and valid_pw(name, pw, u.pw_hash):
-            return u
-
-
-class Comment(ndb.Model):
-    """Class defines comment model for DB."""
-
-    comment = ndb.TextProperty(required=True)
-    created = ndb.DateTimeProperty(auto_now_add=True)
-    author = ndb.KeyProperty(User, required=True)
-    last_modified = ndb.DateTimeProperty(auto_now=True)
 
 
 class NewComment(BlogHandler):
@@ -160,7 +78,7 @@ class NewComment(BlogHandler):
     def post(self):
         """Handle post requests from comment form."""
         if not self.user:
-            self.redirect('/blog')
+            return self.redirect('/blog')
 
         comment = self.request.get('comment')
         post_id = self.request.get('post_id')
@@ -175,24 +93,6 @@ class NewComment(BlogHandler):
             parent_post.put()
             self.write(json.dumps(({'comment': comment})))
         return
-
-
-class Post(ndb.Model):
-    """Class defines post model for DB and utility methods."""
-
-    subject = ndb.StringProperty(required=True)
-    content = ndb.TextProperty(required=True)
-    created = ndb.DateTimeProperty(auto_now_add=True)
-    poster = ndb.KeyProperty(User, required=True)
-    likes_counter = ndb.IntegerProperty(default=0)
-    comments = ndb.StructuredProperty(Comment, repeated=True)
-    likes_authors = ndb.StringProperty(repeated=True)
-    last_modified = ndb.DateTimeProperty(auto_now=True)
-
-    def render(self, user):
-        """Utility method adds html line breaks and calls render function."""
-        self._render_text = self.content.replace('\n', '<br>')
-        return render_str("post.html", p=self, user=user)
 
 
 class BlogFront(BlogHandler):
@@ -232,7 +132,7 @@ class NewPost(BlogHandler):
     def post(self):
         """Handle post requests from new post form."""
         if not self.user:
-            self.redirect('/blog')
+            return self.redirect('/blog')
 
         subject = self.request.get('subject')
         content = self.request.get('content')
@@ -271,11 +171,18 @@ class EditPost(BlogHandler):
         """Handle post requests from edit post form."""
         if not self.user:
             self.redirect('/blog')
-        subject = self.request.get('subject')
-        content = self.request.get('content')
 
         key = ndb.Key('Post', int(post_id), parent=blog_key())
         post = key.get()
+
+        poster_id = post.poster.integer_id()
+        user_id = self.user.key.integer_id()
+
+        if poster_id != user_id:
+            self.redirect('/blog/notauth?username=' + self.user.name)
+
+        subject = self.request.get('subject')
+        content = self.request.get('content')
 
         if subject and content:
             post.subject = subject
@@ -298,6 +205,13 @@ class DeletePost(BlogHandler):
 
         post_id = self.request.get('post_id')
         key = ndb.Key('Post', int(post_id), parent=blog_key())
+        post = key.get()
+
+        poster_id = post.poster.integer_id()
+        user_id = self.user.key.integer_id()
+
+        if poster_id != user_id:
+            self.redirect('/blog/notauth?username=' + self.user.name)
 
         if key:
             key.delete()
@@ -375,25 +289,19 @@ class Signup(BlogHandler):
             self.done()
 
 
-"""Utility definitions to verify sign-up from inputs."""
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PASS_RE = re.compile(r"^.{3,20}$")
-EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-
-
 def valid_username(username):
     """Utility function to verify sign-up from inputs."""
-    return username and USER_RE.match(username)
+    return username and re.compile(r"^[a-zA-Z0-9_-]{3,20}$").match(username)
 
 
 def valid_password(password):
     """Utility function to verify sign-up from inputs."""
-    return password and PASS_RE.match(password)
+    return password and re.compile(r"^.{3,20}$").match(password)
 
 
 def valid_email(email):
     """Utility function to verify sign-up from inputs."""
-    return not email or EMAIL_RE.match(email)
+    return not email or re.compile(r'^[\S]+@[\S]+\.[\S]+$').match(email)
 
 
 class Register(Signup):
