@@ -264,6 +264,7 @@ class Signup(BlogHandler):
         self.password = self.request.get('password')
         self.verify = self.request.get('verify')
         self.email = self.request.get('email')
+        self.avatar = self.request.get('avatar')
 
         params = dict(username=self.username,
                       email=self.email)
@@ -314,7 +315,7 @@ class Register(Signup):
             msg = 'That user already exists.'
             self.render('signup-form.html', error_username=msg)
         else:
-            u = User.register(self.username, self.password, self.email)
+            u = User.register(self.username, self.password, self.email, self.avatar)
             u.put()
 
             self.login(u)
