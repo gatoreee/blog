@@ -264,7 +264,7 @@ class Signup(BlogHandler):
         self.password = self.request.get('password')
         self.verify = self.request.get('verify')
         self.email = self.request.get('email')
-        self.avatar = self.request.get('avatar')
+        self.avatar = str(self.request.get('avatar'))
 
         params = dict(username=self.username,
                       email=self.email)

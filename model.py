@@ -49,7 +49,7 @@ class User(ndb.Model):
     name = ndb.StringProperty(required=True)
     pw_hash = ndb.StringProperty(required=True)
     email = ndb.StringProperty()
-    avatar = ndb.BlobProperty
+    avatar = ndb.BlobProperty()
 
     @classmethod
     def by_id(cls, uid):
@@ -63,7 +63,7 @@ class User(ndb.Model):
         return u
 
     @classmethod
-    def register(cls, name, pw, email=None, avatar):
+    def register(cls, name, pw, email=None, avatar=None):
         """Utility method registers new user."""
         pw_hash = make_pw_hash(name, pw)
         return User(parent=users_key(),
