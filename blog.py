@@ -321,15 +321,17 @@ class Register(Signup):
             self.login(u)
             self.redirect('/blog')
 
+
 class UserProfile(BlogHandler):
-    """Class handles requests for and from edit user form."""
-
-    def get(self, user_id):
+    """Class handles requests for and from user profile form."""
+    print("Got to here")
+    def get(self):
         """Handle get requests for edit user form."""
-        key = ndb.Key('User', int(user_id), parent=blog_key())
-        post = key.get()
-
-        if not post:
+        print("Got to get function")
+        key = self.user.key
+        user = key.get()
+        print("Got to here 2")
+        if not user:
             self.error(404)
             return
 
@@ -339,81 +341,7 @@ class UserProfile(BlogHandler):
         if poster_id != user_id:
             self.redirect('/blog/notauth?username=' + self.user.name)
         else:
-            self.render("editpost.html", post=post)
-
-    def post(self, post_id):
-        """Handle post requests from edit post form."""
-        if not self.user:
-            self.redirect('/blog')
-
-        key = ndb.Key('Post', int(post_id), parent=blog_key())
-        post = key.get()
-
-        poster_id = post.poster.integer_id()
-        user_id = self.user.key.integer_id()
-
-        if poster_id != user_id:
-            self.redirect('/blog/notauth?username=' + self.user.name)
-
-        subject = self.request.get('subject')
-        content = self.request.get('content')
-
-        if subject and content:
-            post.subject = subject
-            post.content = content
-            post.put()
-            self.redirect('/blog/%s' % str(post.key.integer_id()))
-        else:
-            error = "subject and content, please!"
-            self.render("newpost.html", subject=subject, content=content,
-                        error=error)
-
-class EditUser(BlogHandler):
-    """Class handles requests for and from edit user form."""
-
-    def get(self, user_id):
-        """Handle get requests for edit user form."""
-        key = ndb.Key('User', int(user_id), parent=blog_key())
-        post = key.get()
-
-        if not post:
-            self.error(404)
-            return
-
-        poster_id = post.poster.integer_id()
-        user_id = self.user.key.integer_id()
-
-        if poster_id != user_id:
-            self.redirect('/blog/notauth?username=' + self.user.name)
-        else:
-            self.render("editpost.html", post=post)
-
-    def post(self, post_id):
-        """Handle post requests from edit post form."""
-        if not self.user:
-            self.redirect('/blog')
-
-        key = ndb.Key('Post', int(post_id), parent=blog_key())
-        post = key.get()
-
-        poster_id = post.poster.integer_id()
-        user_id = self.user.key.integer_id()
-
-        if poster_id != user_id:
-            self.redirect('/blog/notauth?username=' + self.user.name)
-
-        subject = self.request.get('subject')
-        content = self.request.get('content')
-
-        if subject and content:
-            post.subject = subject
-            post.content = content
-            post.put()
-            self.redirect('/blog/%s' % str(post.key.integer_id()))
-        else:
-            error = "subject and content, please!"
-            self.render("newpost.html", subject=subject, content=content,
-                        error=error)
+            self.render("userprofile.html", post=post)
 
 class Login(BlogHandler):
     """Class handles request for signup form."""
@@ -471,7 +399,6 @@ app = webapp2.WSGIApplication([('/', BlogFront),
                                ('/blog/like', LikesHandler),
                                ('/signup', Register),
                                ('/user', UserProfile),
-                               ('/edituser', EditUser),
                                ('/login', Login),
                                ('/logout', Logout),
                                ],

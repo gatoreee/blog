@@ -17,7 +17,7 @@
     </div>
       <div class="login-area">
         {% if user %}
-          {{ user.name }} (<a class="login-link" href="/logout">logout</a>)
+          <a class= "login-link" href="/user">{{ user.name }}</a> (<a class="login-link" href="/logout">logout</a>)
           <br>
           <a class="login-link" href="/blog/newpost">new post</a>
           <div>
