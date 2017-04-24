@@ -1,7 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>{{ user.name }}'s profile</h2>
+    <div class="row">
+        <div class="col-med-12">
+            <h2>{{ user.name }}'s profile</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-med-6">
+            <h5>change password</h5>
+            <form method="post">
+                <table>
+                    <tr>
+                    <td class="label">Current:</td>
+                    <td><input type="password" name="password" value=""></td>
+                    <td class="error">{{error_password}}</td>
+                    </tr>
+                    <tr>
+                    <td class="label">New:</td>
+                    <td><input type="password" name="password" value=""></td>
+                    <td class="error">{{error_password}}</td>
+                    </tr>
+                    <tr>
+                    <td class="label">Verify:</td>
+                    <td><input type="password" name="verify" value=""></td>
+                    <td class="error">{{error_verify}}</td>
+                    </tr>
+                    <input type="submit">
+                </table>
+            </form>
+        </div>
+        <div class="col-med-6">
+            <table>
+                <tr>
+                <td class="label">Picture</td>
+                <td><input type="file" name="avatar" value="avatar"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-med-12">
+            <br><br>
+            <h2>{{ user.name }}'s posts</h2>
+        </div>
+    </div>
     {% for p in posts %}
         {{ p.render(user) | safe }}
     {% endfor %}
