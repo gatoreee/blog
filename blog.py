@@ -323,25 +323,14 @@ class Register(Signup):
 
 
 class UserProfile(BlogHandler):
-    """Class handles requests for and from user profile form."""
-    print("Got to here")
+    """Class handles requests for user profile"""
+
     def get(self):
         """Handle get requests for edit user form."""
-        print("Got to get function")
-        key = self.user.key
-        user = key.get()
-        print("Got to here 2")
-        if not user:
-            self.error(404)
-            return
-
-        poster_id = post.poster.integer_id()
-        user_id = self.user.key.integer_id()
-
-        if poster_id != user_id:
-            self.redirect('/blog/notauth?username=' + self.user.name)
-        else:
-            self.render("userprofile.html", post=post)
+        q = Post.query()
+        q = q.filter(Post.poster == self.user.key)
+        results = q.fetch(10)
+        self.render("userprofile.html", posts=results)
 
 class Login(BlogHandler):
     """Class handles request for signup form."""

@@ -1,21 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>{{ user.name }}'s profile</h2>
-    <form method="post">
-      <label>
-        <div>password</div>
-        <input class="post-subject" type="text" name="subject" value="{{ post.subject }}">
-      </label>
-
-      <label>
-        <div>blog</div>
-        <textarea name="content">{{ post.content }}</textarea>
-      </label>
-
-      <div class="error">{{ error }}</div>
-
-      <input type="submit" value="Save">
-      <input type="button" name="cancel" value="Cancel" onClick="window.location.href='/blog';" /> 
-    </form>
+    <h2>{{ user.name }}'s profile</h2>
+    {% for p in posts %}
+        {{ p.render(user) | safe }}
+    {% endfor %}
 {% endblock %}
