@@ -2,35 +2,33 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-med-12">
+        <div class="col-md-12">
             <h2>{{ user.name }}'s profile</h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-med-6">
-            <h5>change password</h5>
-            <form method="post">
-                <table>
-                    <tr>
-                    <td class="label">Current:</td>
-                    <td><input type="password" name="password" value=""></td>
-                    <td class="error">{{error_password}}</td>
-                    </tr>
-                    <tr>
-                    <td class="label">New:</td>
-                    <td><input type="password" name="password" value=""></td>
-                    <td class="error">{{error_password}}</td>
-                    </tr>
-                    <tr>
-                    <td class="label">Verify:</td>
-                    <td><input type="password" name="verify" value=""></td>
-                    <td class="error">{{error_verify}}</td>
-                    </tr>
-                    <input type="submit">
-                </table>
+        <div class="col-md-6">
+            <h4>change password</h4>
+            <form class="form-inline" method="post">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Current:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="password" name="password" value="">
+                    </div>
+                </div>
+                <div class="input-group row">
+                    <label class="col-md-2">New:</label>
+                    <input class="col-md-10" type="password" name="newpassword" value="">
+                </div>
+                <div class="input-group row">
+                    <label class="col-md-2">Verify:</label>
+                    <input class="col-md-10" type="password" name="verify" value="">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>           
             </form>
         </div>
-        <div class="col-med-6">
+        <div class="col-md-6">
+            <h4>add profile pic</h4>
             <table>
                 <tr>
                 <td class="label">Picture</td>
@@ -40,7 +38,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-med-12">
+        <div class="col-md-12">
             <br><br>
             <h2>{{ user.name }}'s posts</h2>
         </div>

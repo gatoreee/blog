@@ -16,7 +16,7 @@ h2 {
 
 
 h4 {
-    text-align: right;
+
 }
 
 
@@ -30,8 +30,7 @@ hr {
 
 /* input forms */
 label {
-  display: block;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 
