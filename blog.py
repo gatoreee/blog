@@ -332,6 +332,20 @@ class UserProfile(BlogHandler):
         results = q.fetch(10)
         self.render("userprofile.html", posts=results)
 
+class ProfilePic(BlogHandler):
+    """Class handles requests for and from profile pic form."""
+
+    def post(self):
+        print("Got to profilepic handler")
+        """Handle post requests from comment form."""
+        if not self.user:
+            return self.redirect('/blog')
+        
+        self.avatar = str(self.request.get('pic'))
+        self.write(json.dumps(({'pic': 'success'})))
+
+        return
+
 class Login(BlogHandler):
     """Class handles request for signup form."""
 
@@ -388,6 +402,7 @@ app = webapp2.WSGIApplication([('/', BlogFront),
                                ('/blog/like', LikesHandler),
                                ('/signup', Register),
                                ('/user', UserProfile),
+                               ('/uploadprofilepic', ProfilePic),
                                ('/login', Login),
                                ('/logout', Logout),
                                ],

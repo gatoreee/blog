@@ -31,6 +31,36 @@ $(document).ready(function(){$('.comment-form').submit(function(e){
  	clearInput();
  })});
 
+
+/**
+* event handler for profile pic upload
+*/
+$(document).ready(function(){$('.profile-pic-form').submit(function(e){
+    console.log("got to profile-pic-form submit ajax");
+    // intercept submit post
+	e.preventDefault();
+	e.stopImmediatePropagation();
+    // read username and pic
+    var instance = $(this);
+    var username = instance.data('username');
+    var pic = $(this)
+    // submit to backend function so it can be added to DB
+    $.ajax({
+    	type: "post",
+        url: "/uploadprofilepic", // route which will handle the request
+        contentType: 'application/octet-stream',  
+        data: pic,
+        processData: false,
+        // if successful, display new comment on page
+        success: function(data){
+        	console.log("Got to success load pic");
+        },
+        error: function(err){
+            console.log(err);
+    	}
+ 	});
+ })});
+
 /**
 * event handler for post likes/unlikes
 */
