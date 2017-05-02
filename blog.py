@@ -341,7 +341,13 @@ class ProfilePic(BlogHandler):
         if not self.user:
             return self.redirect('/blog')
         
-        self.avatar = str(self.request.get('pic'))
+        self.user.avatar = str(self.request.get('pic'))
+        self.user.put()
+
+        print(self.user)
+        print(self.user.avatar)
+        print(self.user.key.get())
+
         self.write(json.dumps(({'pic': 'success'})))
 
         return

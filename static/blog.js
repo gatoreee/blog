@@ -53,7 +53,7 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
         processData: false,
         // if successful, display new comment on page
         success: function(data){
-        	console.log("Got to success load pic");
+        	console.log("Got to success load pic %i", pic);
         },
         error: function(err){
             console.log(err);
