@@ -62,14 +62,13 @@ class User(ndb.Model):
         return u
 
     @classmethod
-    def register(cls, name, pw, email=None, avatar=None):
+    def register(cls, name, pw, email=None):
         """Utility method registers new user."""
         pw_hash = make_pw_hash(name, pw)
         return User(parent=users_key(),
                     name=name,
                     pw_hash=pw_hash,
-                    email=email,
-                    avatar=avatar)
+                    email=email)
 
     @classmethod
     def login(cls, name, pw):

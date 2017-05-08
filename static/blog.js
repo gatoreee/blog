@@ -43,7 +43,7 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
     // read username and pic
     var instance = $(this);
     var username = instance.data('username');
-    var pic = $(this)
+    var pic = $(this);
     // submit to backend function so it can be added to DB
     $.ajax({
     	type: "post",
@@ -57,6 +57,7 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
         },
         error: function(err){
             console.log(err);
+            console.log("Got to error load pic %i", pic);
     	}
  	});
  })});

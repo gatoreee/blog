@@ -264,7 +264,6 @@ class Signup(BlogHandler):
         self.password = self.request.get('password')
         self.verify = self.request.get('verify')
         self.email = self.request.get('email')
-        self.avatar = str(self.request.get('avatar'))
 
         params = dict(username=self.username,
                       email=self.email)
@@ -315,7 +314,7 @@ class Register(Signup):
             msg = 'That user already exists.'
             self.render('signup-form.html', error_username=msg)
         else:
-            u = User.register(self.username, self.password, self.email, self.avatar)
+            u = User.register(self.username, self.password, self.email)
             u.put()
 
             self.login(u)
@@ -340,12 +339,13 @@ class ProfilePic(BlogHandler):
         """Handle post requests from comment form."""
         if not self.user:
             return self.redirect('/blog')
-        
+            
         self.user.avatar = str(self.request.get('pic'))
-        self.user.put()
 
-        print(self.user)
-        print(self.user.avatar)
+        if self.user.avatar:
+            self.user.put()
+            print(self.user)
+            
         print(self.user.key.get())
 
         self.write(json.dumps(({'pic': 'success'})))
