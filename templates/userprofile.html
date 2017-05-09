@@ -34,8 +34,10 @@
         <div class="col-md-6">
             <h4>add profile pic</h4>
             <form class="profile-pic-form" enctype="multipart/form-data" data-username="{{ user.name }}" method="post">
-                <div><input type="file" name="file"/></div>
-                <div><button type="submit" value="Upload"></div>
+                <div class="input-group">
+                    <input type="file" name="file"/>
+                    <button class="btn btn-primary" type="submit">Upload</button>
+                </div>
             </form>
         </div>
     </div>

@@ -43,21 +43,22 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
     // read username and pic
     var instance = $(this);
     var username = instance.data('username');
-    var pic = $(this);
+    var data = new FormData(this);
+    console.log("Got to load pic %r", instance.file);
     // submit to backend function so it can be added to DB
     $.ajax({
     	type: "post",
         url: "/uploadprofilepic", // route which will handle the request
         contentType: 'application/octet-stream',  
-        data: pic,
+        data: data,
         processData: false,
         // if successful, display new comment on page
         success: function(data){
-        	console.log("Got to success load pic %i", pic);
+        	console.log("Got to success load pic %i", data);
         },
         error: function(err){
             console.log(err);
-            console.log("Got to error load pic %i", pic);
+            console.log("Got to error load pic %i", data);
     	}
  	});
  })});
