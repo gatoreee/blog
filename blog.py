@@ -340,7 +340,8 @@ class ProfilePic(BlogHandler):
         if not self.user:
             return self.redirect('/blog')
             
-        self.user.avatar = str(self.request.get('pic'))
+        print(self.request.get('username'))    
+        self.user.avatar = str(self.request.get('file'))
 
         if self.user.avatar:
             self.user.put()

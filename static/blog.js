@@ -41,16 +41,18 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
 	e.preventDefault();
 	e.stopImmediatePropagation();
     // read username and pic
-    var instance = $(this);
-    var username = instance.data('username');
-    var data = new FormData(this);
-    console.log("Got to load pic %r", instance.file);
-    // submit to backend function so it can be added to DB
+    var file_data = $("#avatar").prop("files")[0];   // Getting the properties of file from file field
+	var form_data = new FormData();                  // Creating object of FormData class
+
+    console.log("Got to load pic %r", $("#avatar"));
+
+	form_data.append("file", file_data);          // Appending parameter named file with properties of file_field to form_data
+	form_data.append("username", $(this).data('username'));   // submit to backend function so it can be added to DB
     $.ajax({
     	type: "post",
         url: "/uploadprofilepic", // route which will handle the request
-        contentType: 'application/octet-stream',  
-        data: data,
+        contentType: false,  
+        data: form_data,
         processData: false,
         // if successful, display new comment on page
         success: function(data){
