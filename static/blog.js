@@ -50,10 +50,10 @@ $(document).ready(function(){$('.profile-pic-form').submit(function(e){
 	form_data.append("username", $(this).data('username'));   // submit to backend function so it can be added to DB
     $.ajax({
     	type: "post",
-        url: "/uploadprofilepic", // route which will handle the request
-        contentType: false,  
+        url: "/uploadprofilepic", // route which will handle the request  
         data: form_data,
         processData: false,
+        contentType: false,        
         // if successful, display new comment on page
         success: function(data){
         	console.log("Got to success load pic %i", data);

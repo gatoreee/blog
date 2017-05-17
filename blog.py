@@ -339,15 +339,13 @@ class ProfilePic(BlogHandler):
         """Handle post requests from comment form."""
         if not self.user:
             return self.redirect('/blog')
-            
-        print(self.request.get('username'))    
-        self.user.avatar = str(self.request.get('file'))
+
+        pic = str(self.request.get('file'))
+        print(pic) 
+        self.user.avatar = pic[0]
 
         if self.user.avatar:
             self.user.put()
-            print(self.user)
-            
-        print(self.user.key.get())
 
         self.write(json.dumps(({'pic': 'success'})))
 
